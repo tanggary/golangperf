@@ -84,6 +84,7 @@ func runcpuload(coresCount int, timeSeconds int, percentage int) {
 	unitHundresOfMicrosecond := 1000
 	runMicrosecond := unitHundresOfMicrosecond * percentage
 	sleepMicrosecond := unitHundresOfMicrosecond*100 - runMicrosecond
+
 	for i := 0; i < coresCount; i++ {
 		go func() {
 			runtime.LockOSThread()
@@ -103,6 +104,7 @@ func runcpuload(coresCount int, timeSeconds int, percentage int) {
 	}
 	// how long
 	time.Sleep(time.Duration(timeSeconds) * time.Second)
+	runtime.UnlockOSThread()
 }
 
 func maxup(x int) {
