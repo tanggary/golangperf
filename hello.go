@@ -15,14 +15,15 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.GET("/calc", func(d *gin.Context) {
-		d.JSON(http.StatusOK, gin.H{
+	r.GET("/calc", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
 			"Result": calculate(3, 5),
 		})
 	})
-	r.GET("/runup", func(d *gin.Context) {
-		running()
-		d.JSON(http.StatusOK, gin.H{
+	r.GET("/runup/:duration", func(c *gin.Context) {
+		duration := c.Param("duration")
+		running(duration)
+		c.JSON(http.StatusOK, gin.H{
 			"Action": "Revving",
 		})
 	})
@@ -34,7 +35,7 @@ func calculate(x int, y int) int {
 	return x + y
 }
 
-func running() {
+func running(x int) {
 	done := make(chan int)
 
 	for i := 0; i < runtime.NumCPU(); i++ {
@@ -49,6 +50,6 @@ func running() {
 		}()
 	}
 
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * time.Duration(x))
 	close(done)
 }
