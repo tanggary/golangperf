@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"runtime"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +24,12 @@ func main() {
 	})
 	r.GET("/runup/:duration", func(c *gin.Context) {
 		duration := c.Param("duration")
-		running(duration)
+		int1, err := strconv.Atoi(duration)
+		if err != nil {
+			fmt.Println("Error during conversion")
+			return
+		}
+		running(int1)
 		c.JSON(http.StatusOK, gin.H{
 			"Action": "Revving",
 		})
