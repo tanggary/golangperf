@@ -37,6 +37,7 @@ func main() {
 			fmt.Println("Error during conversion")
 			return
 		}
+		fmt.Println(duration + " " + percentage)
 		runcpuload(runtime.NumCPU(), int1, int2)
 
 		str_cat := "Revving" + " " + percentage + "% " + duration + " seconds"
