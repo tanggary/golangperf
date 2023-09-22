@@ -18,12 +18,6 @@ func main() {
 		})
 	})
 
-	r.GET("/calc", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"Result": calculate(3, 5),
-		})
-	})
-
 	r.GET("/runup/:duration/:percentage", func(c *gin.Context) {
 		duration := c.Param("duration")
 		int1, err := strconv.Atoi(duration)
@@ -37,7 +31,7 @@ func main() {
 			fmt.Println("Error during conversion")
 			return
 		}
-		fmt.Println(duration + " " + percentage)
+		fmt.Println(strconv.Itoa(runtime.NumCPU()) + " " + duration + " " + percentage)
 		runcpuload(runtime.NumCPU(), int1, int2)
 
 		str_cat := "Revving" + " " + percentage + "% " + duration + " seconds"
@@ -64,10 +58,6 @@ func main() {
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-}
-
-func calculate(x int, y int) int {
-	return x + y
 }
 
 func runcpuload(coresCount int, timeSeconds int, percentage int) {
